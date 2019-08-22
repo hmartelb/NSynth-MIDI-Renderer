@@ -2,7 +2,9 @@
 
 This Project is intended to provide a simple way to synthesize any MIDI sequence to an audio file using the notes of the NSynth dataset. It works by substituting each note in the sequence with the specified instrument, pitch and velocity for all the notes in the sequence. 
 
-![NoteSynthesizer Diagram](docs/NoteSynthesizer_diagram.png)
+<p align="center">
+<a href="docs/NoteSynthesizer_diagram.png"><img src="docs/NoteSynthesizer_diagram.png" width="650" height="450"/></a>
+</p>
 
 # Quick start
 Clone this repository to your system.
@@ -27,11 +29,33 @@ For the general use case, 3 parameters must be specified:
 2)	The MIDI file (*.mid, *.midi) containing the sequence
 3)	The output path and name for the audio (*.wav)
 
+## Run from the main
+
 To run the program, execute the following command in your terminal:
 ```bash
 $ python NoteSynthesizer.py --db <path_to_nsynth> --seq <midi_filename> --output <audio_filename>
 ```
 Additionally, there are some optional parameters:
+
+# Import the NoteSynthesizer Class into a Python script
+It is also possible to use the NoteSynthesizer Class in a Python script to have custom functionality. Here is a generic way to import and use it:
+
+```python
+from NoteSynthesizer import NoteSynthesizer
+
+# Initialize variables here
+# ...
+
+# Create the NoteSynthesizer instance
+synth = NoteSynthesizer(path_to_nsynth, sr, velocities, preload)  
+
+# Generate the audio for a given MIDI sequence
+y, _ = synth.render_sequence(sequence, instrument, source_type, preset, transpose, playback_speed, duration_scale)
+
+# Save or process the audio (y)
+# ...
+
+```
 
 # Examples
 The files in the /output folder have been generated using different instruments, with sr=44100, playback_speed=1 and duration_scale=4, leaving the rest of optional parameters as default. The files are named using the following convention:
