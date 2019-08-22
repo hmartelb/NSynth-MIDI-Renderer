@@ -5,7 +5,7 @@ This Project is intended to provide a simple way to synthesize any MIDI sequence
 # Quick start
 Clone this repository to your system.
 ```bash
-git-clone []
+$ git clone https://github.com/hmartelb/NSynth-MIDI-Renderer.git
 ```
 
 To start synthesizing audios, you need to download the NSynth dataset and some MIDI files. Here are two useful links:
@@ -16,7 +16,7 @@ To start synthesizing audios, you need to download the NSynth dataset and some M
 
 Also, make sure that you have Python 3 installed in your system. Then open a new terminal in the master directory and install the dependencies from requirements.txt by executing this command:
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 # How to use it 
@@ -27,7 +27,7 @@ For the general use case, 3 parameters must be specified:
 
 To run the program, execute the following command in your terminal:
 ```bash
-python NoteSynthesizer.py --db <path_to_nsynth> --seq <midi_filename> --output <audio_filename>
+$ python NoteSynthesizer.py --db <path_to_nsynth> --seq <midi_filename> --output <audio_filename>
 ```
 Additionally, there are some optional parameters:
 
