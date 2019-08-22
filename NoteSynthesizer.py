@@ -127,6 +127,7 @@ if __name__ == "__main__":
         ap.add_argument('--preload', required=False, default=True, help="Load all notes in memory before rendering for better performance (at least 1 GB of RAM is required)")
     args = vars(ap.parse_args())
 
+    assert os.path.isdir(args['db']), 'Dataset not found in ' + args['db']
     assert os.path.isfile(args['seq']), 'File ' + args['seq'] + ' not found.'
 
     synth = NoteSynthesizer(
