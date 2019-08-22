@@ -2,6 +2,8 @@
 
 This Project is intended to provide a simple way to synthesize any MIDI sequence to an audio file using the notes of the NSynth dataset. It works by substituting each note in the sequence with the specified instrument, pitch and velocity for all the notes in the sequence. 
 
+![NoteSynthesizer Diagram](docs/NoteSynthesizer_diagram.png)
+
 # Quick start
 Clone this repository to your system.
 ```bash
