@@ -18,7 +18,7 @@ To start synthesizing audios, you need to download the NSynth dataset and some M
 
 * Classical Music MIDI Dataset, Kaggle https://www.kaggle.com/soumikrakshit/classical-music-midi
 
-Also, make sure that you have Python 3 installed in your system. Then open a new terminal in the master directory and install the dependencies from requirements.txt by executing this command:
+Also, make sure that you have **Python 3.6** installed in your system. Then open a new terminal in the master directory and install the dependencies from requirements.txt by executing this command:
 ```bash
 $ pip install -r requirements.txt
 ```
