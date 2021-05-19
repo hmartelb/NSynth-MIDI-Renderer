@@ -6,7 +6,6 @@ import numpy as np
 
 import pretty_midi
 import librosa
-import matplotlib.pyplot as plt
 from scipy.io.wavfile import write as write_wav
 
 class NoteSynthesizer():
@@ -64,10 +63,11 @@ class NoteSynthesizer():
             envelope = np.exp(-np.arange(len(note)-decay_ind)/3000.)
             note[decay_ind:] = np.multiply(note[decay_ind:],envelope)
         except:
+            print('Note not fonund', note_filename)
             note = np.zeros(duration)
         return note[:duration]
 
-    def render_sequence(self, sequence, instrument='guitar', source_type='acoustic', preset=None, playback_speed=1, duration_scale=1, transpose=0):
+    def render_sequence(self, sequence, instrument='guitar', source_type='acoustic', preset=None, playback_speed=1, duration_scale=1, transpose=0, eps=1e-9):
         preset = preset if(preset is not None) else self.preset
         transpose = transpose if(transpose is not None) else self.transpose
 
@@ -81,7 +81,7 @@ class NoteSynthesizer():
             duration = end_sample - start_sample
 
             if(duration_scale != 1):
-                duration *= duration_scale
+                duration = int(duration * duration_scale)
                 end_sample = start_sample + duration
             
             if(self.preload):
@@ -100,12 +100,16 @@ class NoteSynthesizer():
                                                                             source_type=source_type,
                                                                             preset=preset
                                                                         ))
-            try:
-                data[start_sample:end_sample] += self._render_note(note_filename, duration, velocity)
-            except:
-                pass
+            note = self._render_note(note_filename, duration, velocity)
 
-        data /= np.max(np.abs(data)) 
+            if(end_sample <= len(data) and duration == len(note)):
+                data[start_sample:end_sample] += note
+            elif(duration > len(note) and end_sample <= len(data)):
+                data[start_sample:start_sample+len(note)] += note
+            # elif(end_sample > len(data)):
+            #     data[start_sample:] = note[0:len(data)-start_sample]
+
+        data /= np.max(np.abs(data)) + eps
         return data, self.sr 
 
 if __name__ == "__main__":
@@ -136,17 +140,21 @@ if __name__ == "__main__":
                                 velocities=NSYNTH_VELOCITIES, 
                                 preload=args['preload']
                             )    
+    if(args['preload']):
+        synth.preload_notes(args['instrument'], args['source_type'], int(args['preset']))
+
     y, _ = synth.render_sequence(
                                     sequence=args['seq'], 
                                     instrument=args['instrument'], 
                                     source_type=args['source_type'], 
                                     preset=int(args['preset']),
-                                    transpose=args['transpose'],
-                                    playback_speed=args['playback_speed'],
-                                    duration_scale=args['duration_scale']
+                                    transpose=int(args['transpose']),
+                                    playback_speed=float(args['playback_speed']),
+                                    duration_scale=float(args['duration_scale'])
                                 )
 
     if(int(args['sr']) != NSYNTH_SAMPLE_RATE):
         y = librosa.core.resample(y, NSYNTH_SAMPLE_RATE, int(args['sr']))
     
+    print("Saving audio output to", args['output'])
     write_wav(args['output'], int(args['sr']), np.array(32000.*y, np.short))
