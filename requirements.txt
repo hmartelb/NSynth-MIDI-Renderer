@@ -10,7 +10,7 @@ matplotlib==3.3.4
 mido==1.2.10
 numba==0.48.0
 numpy==1.21.0
-Pillow==9.0.0
+Pillow==9.0.1
 pretty-midi==0.2.9
 pycparser==2.20
 pyparsing==2.4.7
