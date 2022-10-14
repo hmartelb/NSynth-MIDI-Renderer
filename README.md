@@ -63,6 +63,19 @@ The files in the /output folder have been generated using different instruments,
 <midi_name>_<instrument>_<source_type>_<preset>.wav
 ```
 
+# Citation
+If you use this code in your research, please cite it as below:
+```
+@software{Martel_NSynth-MIDI-Renderer_2019,
+    author = {Martel, Héctor},
+    month = {8},
+    title = {{NSynth-MIDI-Renderer}},
+    url = {https://github.com/hmartelb/NSynth-MIDI-Renderer},
+    version = {1.0.0},
+    year = {2019}
+}
+```
+
 # Licence
 
 ```
