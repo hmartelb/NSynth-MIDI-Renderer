@@ -69,7 +69,7 @@ If you use this code in your research, please cite it as below:
 @software{Martel_NSynth-MIDI-Renderer_2019,
     author = {Martel, Héctor},
     month = {8},
-    title = {{NSynth-MIDI-Renderer}},
+    title = {{NSynth-MIDI-Renderer: Sample based concatenative synthesizer for the NSynth dataset.}},
     url = {https://github.com/hmartelb/NSynth-MIDI-Renderer},
     version = {1.0.0},
     year = {2019}
