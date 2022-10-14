@@ -75,6 +75,7 @@ If you use this code in your research, please cite it as below:
     year = {2019}
 }
 ```
+For questions or further discussions, please write me an email to [hmartelb@hotmail.com](mailto:hmartelb@hotmail.com?subject=[GitHub]%20NSynth%20Midi%20Renderer).
 
 # Licence
 
