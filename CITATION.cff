@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software in your research work, please cite it as below."
+authors:
+- family-names: "Martel"
+  given-names: "Héctor"
+title: "NSynth-MIDI-Renderer"
+version: 1.0.0
+date-released: 2019-08-13
+url: "https://github.com/hmartelb/NSynth-MIDI-Renderer"
