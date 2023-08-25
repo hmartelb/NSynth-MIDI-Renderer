@@ -1,11 +1,16 @@
 # NSynth-MIDI-Renderer for massive MIDI dataset 
 
-This project is slightly modified from original work. It is designed to render large midifile datasets.
+## This project is slightly modified from original work. It is designed to render large midifile datasets.
+
+### How is it different from the original work?
+
 For a given MIDI sequence, it goes through a process of finding and assigning candidates to lock in a single preset from the beginning to the end of the sequence. 
-If it fails to find one because the combination of instrument, pitch, and velocity is unique, it will randomly use a preset for every note. 
-When tested with a 130,000 MIDI dataset, only 95 MIDI sequences were randomized, with a probability of 0.0007%.
+If it fails to find one because the combination of instrument, pitch, and velocity is unique, it will randomly use a preset for every note.
+
 
 * Original Project: https://github.com/hmartelb/NSynth-MIDI-Renderer
+
+* When tested with a 130,000 MIDI dataset, only 95 MIDI sequences were randomized, with a probability of 0.0007%.
 
 <p align="center">
 <a href="docs/NoteSynthesizer_diagram.png"><img src="docs/NoteSynthesizer_diagram.png" width="650" height="450"/></a>
@@ -66,11 +71,15 @@ with tqdm(total=total) as pbar:
 ```
 
 # Examples
+
 The files in the /output folder looks like this.
+
 ```bash
-output_dir/audio/train/midifile01.wav, midifile02.wave
+output_dir/audio/train/midifile01.wav
+output_dir/audio/train/midifile02.wav
 output_dir/audio/val/midifile03.wav
 ```
+
 The output dictionary looks like this
 
 ```python
