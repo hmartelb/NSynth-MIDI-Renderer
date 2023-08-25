@@ -19,7 +19,7 @@ If it fails to find one because the combination of instrument, pitch, and veloci
 # Quick start
 Clone this repository to your system.
 ```bash
-$ git clone https://github.com/spear011/NSynth-MIDI-Renderer.git
+$ git clone https://github.com/spear011/NSynth-MIDI-Renderer-for-massive-MIDI-dataset.git
 ```
 
 To start synthesizing audios, you need to download the NSynth dataset and MIDI dataset you want.
