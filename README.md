@@ -23,10 +23,9 @@ To start synthesizing audios, you need to download the NSynth dataset and MIDI d
 
 # How to use it 
 For the general use case, 3 parameters must be specified:
-1)	The path to the NSynth Dataset (audios directory)
+1)	The path to the NSynth Dataset (dir path)
 2)	csv file that containing midi file id and instrument information
-3)	The MIDI file list (*.mid, *.midi)
-4)	The output dir path 
+3)	The output dir path 
 
 # Import the NoteSynthesizer Class into a Python script
 It is also possible to use the NoteSynthesizer Class in a Python script to have custom functionality. Here is a generic way to import and use it:
