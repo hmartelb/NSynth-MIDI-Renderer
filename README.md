@@ -72,9 +72,10 @@ output_dir/audio/train/midifile01.wav, midifile02.wave
 output_dir/audio/val/midifile03.wav
 ```
 The output dictionary looks like this
-'''bash
+
+```python
 output_dict = {'id': ['midifile01', 'midifile02', 'midifile03'], 'instrument': ['keyboard', 'guitar', 'guitar'] ,'preset': ['030', '002', 'random'], 'source': [1, 0, 'random']}
-'''
+```
 
 The result of this dictionary can be used to track which presets and sources were selected for the MIDI file. 
 Information about the presets of audio sources that were subsequently used can be matched with the nsynth dataset.
