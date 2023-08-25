@@ -160,25 +160,26 @@ class NoteSynthesizer():
 
         release_env = (release_in_sample-np.arange(release_in_sample)) / release_in_sample
 
-        if duration + release_in_sample > len(note):
+        if duration > len(note):
             note[-release_in_sample:] *= release_env
-            note = np.pad(note, (0, duration + release_in_sample -len(note)), 'constant')  
-        elif duration + release_in_sample <= len(note):
-            note[duration:duration+release_in_sample] *= release_env
+            note = np.pad(note, (0, duration - len(note)), 'constant')  
+        elif duration <= len(note):
+            note[duration-release_in_sample : duration] *= release_env
 
-        return note[:duration+release_in_sample]
+        return note[:duration]
 
-    def render_sequence(self, sequence, instrument='guitar', source_type='acoustic', preset=None, playback_speed=1, duration_scale=1, transpose=0, eps=1e-9):
+
+    def render_sequence(self, path, instrument='guitar', playback_speed=1, duration_scale=1, transpose=0, eps=1e-9):
         
         dataset_path = self.dataset_path
-        preset = preset if(preset is not None) else self.preset
         transpose = transpose if(transpose is not None) else self.transpose
 
-        seq, end_time = self._read_midi(sequence)
+        seq, end_time = self._read_midi(path)
         total_length = int(end_time * self.sr / playback_speed)
         data = np.zeros(total_length)
 
         candidate = self._find_candidates(seq, instrument)
+
         if candidate:
             preset, source = random.choice(list(candidate.items()))
         
@@ -187,11 +188,15 @@ class NoteSynthesizer():
             end_sample = int(note_end * total_length)
             duration = end_sample - start_sample
 
+            if note < self.minpitch[instrument] or note > self.maxpitch[instrument]:
+                continue
+
             if(duration_scale != 1):
                 duration = int(duration * duration_scale)
                 end_sample = start_sample + duration
 
-            end_sample += self.release_in_sample
+            if duration < self.release_in_sample:
+                continue
             
             if candidate == None:
                 note_filename = os.path.join(dataset_path, self._get_note_name_random(
@@ -218,7 +223,7 @@ class NoteSynthesizer():
             #     data[start_sample:] = note[0:len(data)-start_sample]
 
         data /= np.max(np.abs(data)) + eps
-        return data, self.sr 
+        return data
 
 if __name__ == "__main__":
     NSYNTH_SAMPLE_RATE = 16000
