@@ -195,6 +195,8 @@ class NoteSynthesizer():
     def render_sequence(self, path, instrument, playback_speed=1, duration_scale=1, transpose=0, eps=1e-9, write_file=True):
         
         transpose = transpose if(transpose is not None) else self.transpose
+        preset = None
+        source = None
 
         output_dict = dict()
 
@@ -205,7 +207,6 @@ class NoteSynthesizer():
 
         instrument = inst_list[self.get_id_from_path(path)]
         split = split_list[self.get_id_from_path(path)]
-        file_name = f'{self.get_id_from_path(path)}.wav'
 
         output_dict['id'] = self.get_id_from_path(path)
         output_dict['instrument'] = instrument
@@ -223,6 +224,8 @@ class NoteSynthesizer():
             output_dict['source'] = source
 
         else:
+            preset = 'random'
+            source = 'random'
 
             output_dict['preset'] = 'random'
             output_dict['source'] = 'random'
@@ -263,6 +266,8 @@ class NoteSynthesizer():
                 data[start_sample:start_sample+len(note_audio)] += note_audio
 
         data /= np.max(np.abs(data)) + eps
+
+        file_name = f'{self.get_id_from_path(path)}_{preset}_{source}.wav'
 
         if write_file:
             write_wav(os.path.join(output_dir, 'audio', split, file_name), self.sr, np.array(32000.*data, np.short))

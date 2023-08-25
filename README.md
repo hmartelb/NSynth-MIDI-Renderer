@@ -75,9 +75,9 @@ with tqdm(total=total) as pbar:
 The files in the /output folder looks like this.
 
 ```bash
-output_dir/audio/train/midifile01.wav
-output_dir/audio/train/midifile02.wav
-output_dir/audio/val/midifile03.wav
+output_dir/audio/train/midifile01_030_1.wav
+output_dir/audio/train/midifile02_002_0.wav
+output_dir/audio/val/midifile03_random_random.wav
 ```
 
 The output dictionary looks like this
