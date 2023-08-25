@@ -11,7 +11,7 @@ import librosa
 from scipy.io.wavfile import write as write_wav
 
 class NoteSynthesizer():
-    def __init__(self, dataset_path, csv_path, output_dir, sr=44100, transpose=0, attack_in_ms=5, release_in_ms=100, leg_stac=.9, velocities=np.arange(0,128), preset=0, preload=True):
+    def __init__(self, dataset_path, csv_path, output_dir, sr=44100, transpose=0, attack_in_ms=5, release_in_ms=100, leg_stac=.9, velocities=[25, 50, 75, 100, 127], preload=True):
         self.dataset_path = dataset_path
         self.midi_df = self.make_midi_df(csv_path)
         self.nsynth_df = self.make_dataframes(self.dataset_path)
@@ -26,7 +26,6 @@ class NoteSynthesizer():
         self.attack_in_sample = int(self.attack_in_ms * 0.001 * self.sr)
         self.leg_stac = leg_stac
         self.velocities = velocities
-        self.preset = preset
         self.output_dir = output_dir
 
         self.preload = preload
