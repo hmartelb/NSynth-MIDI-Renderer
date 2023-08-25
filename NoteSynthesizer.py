@@ -11,10 +11,13 @@ import librosa
 from scipy.io.wavfile import write as write_wav
 
 class NoteSynthesizer():
-    def __init__(self, dataset_path, sr=44100, transpose=0, attack_in_ms=5, release_in_ms=100, leg_stac=.9, velocities=np.arange(0,128), preset=0, preload=True):
+    def __init__(self, dataset_path, csv_path, output_dir, sr=44100, transpose=0, attack_in_ms=5, release_in_ms=100, leg_stac=.9, velocities=np.arange(0,128), preset=0, preload=True):
         self.dataset_path = dataset_path
+        self.midi_df = self.make_midi_df(csv_path)
         self.nsynth_df = self.make_dataframes(self.dataset_path)
         self.minpitch, self.maxpitch = self._min_max_pitch(self.nsynth_df)
+        self.inst_list = self.make_inst_list(self.midi_df)
+        self.split_list = self.make_split_list(self.midi_df)
         self.sr = sr
         self.transpose = transpose
         self.release_in_ms = release_in_ms
@@ -24,6 +27,7 @@ class NoteSynthesizer():
         self.leg_stac = leg_stac
         self.velocities = velocities
         self.preset = preset
+        self.output_dir = output_dir
 
         self.preload = preload
 
@@ -33,6 +37,26 @@ class NoteSynthesizer():
         df = pd.read_json(json_path).T
         df['preset'] = df['instrument_str'].apply(lambda x: x.split('_')[-1])
         return df
+
+    def make_midi_df(self, midi_path):
+        midi_df = pd.read_csv(midi_path)
+        return midi_df
+    
+    def make_inst_list(self, midi_df):
+        inst_list = dict()
+        for idx, ids in enumerate(midi_df.id.values):
+            inst_list[ids] = midi_df.loc[idx, 'instrument_str']
+        return inst_list
+    
+    def make_split_list(self, midi_df):
+        split_list = dict()
+        for idx, ids in enumerate(midi_df.id.values):
+            split_list[ids] = midi_df.loc[idx, 'split_data']
+        return split_list
+    
+
+    def get_id_from_path(self, path):
+        return os.path.basename(path).split('.')[0]
     
         # get min and max pitch for each instrument
     def _min_max_pitch(self, nsynth_df):
@@ -169,10 +193,23 @@ class NoteSynthesizer():
         return note[:duration]
 
 
-    def render_sequence(self, path, instrument='guitar', playback_speed=1, duration_scale=1, transpose=0, eps=1e-9):
+    def render_sequence(self, path, instrument, playback_speed=1, duration_scale=1, transpose=0, eps=1e-9, write_file=True):
         
-        dataset_path = self.dataset_path
         transpose = transpose if(transpose is not None) else self.transpose
+
+        output_dict = dict()
+
+        output_dir = self.output_dir
+        inst_list = self.inst_list
+        split_list = self.split_list
+        nsynth_folder = os.path.join(self.dataset_path, 'audio')
+
+        instrument = inst_list[self.get_id_from_path(path)]
+        split = split_list[self.get_id_from_path(path)]
+        file_name = f'{self.get_id_from_path(path)}.wav'
+
+        output_dict['id'] = self.get_id_from_path(path)
+        output_dict['instrument'] = instrument
 
         seq, end_time = self._read_midi(path)
         total_length = int(end_time * self.sr / playback_speed)
@@ -182,6 +219,14 @@ class NoteSynthesizer():
 
         if candidate:
             preset, source = random.choice(list(candidate.items()))
+
+            output_dict['preset'] = preset
+            output_dict['source'] = source
+
+        else:
+
+            output_dict['preset'] = 'random'
+            output_dict['source'] = 'random'
         
         for note, velocity, note_start, note_end in seq:
             start_sample = int(note_start * total_length)
@@ -199,13 +244,13 @@ class NoteSynthesizer():
                 continue
             
             if candidate == None:
-                note_filename = os.path.join(dataset_path, self._get_note_name_random(
+                note_filename = os.path.join(nsynth_folder, self._get_note_name_random(
                                                                         note=note, 
                                                                         velocity=velocity, 
                                                                         instrument=instrument
                                                                     ))
             else:
-                note_filename = os.path.join(dataset_path, self._get_note_name_fixed(
+                note_filename = os.path.join(nsynth_folder, self._get_note_name_fixed(
                                                                         note=note, 
                                                                         velocity=velocity, 
                                                                         instrument=instrument,
@@ -213,17 +258,18 @@ class NoteSynthesizer():
                                                                         source=source,
                                                                     ))
             
-            note = self._render_note(note_filename, duration)
+            note_audio = self._render_note(note_filename, duration)
 
-            if(end_sample <= len(data) and duration == len(note)):
-                data[start_sample:end_sample] += note
-            elif(duration > len(note) and end_sample <= len(data)):
-                data[start_sample:start_sample+len(note)] += note
-            # elif(end_sample > len(data)):
-            #     data[start_sample:] = note[0:len(data)-start_sample]
+        if(end_sample <= len(data)):
+                data[start_sample:start_sample+len(note_audio)] += note_audio
 
         data /= np.max(np.abs(data)) + eps
-        return data
+
+        if write_file:
+            write_wav(os.path.join(output_dir, 'audio', split, file_name), self.sr, np.array(32000.*data, np.short))
+
+        return output_dict
+
 
 if __name__ == "__main__":
     NSYNTH_SAMPLE_RATE = 16000
