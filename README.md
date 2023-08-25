@@ -74,7 +74,10 @@ output_dir/audio/val/midifile03.wav
 The output dictionary looks like this
 
 ```python
-output_dict = {'id': ['midifile01', 'midifile02', 'midifile03'], 'instrument': ['keyboard', 'guitar', 'guitar'] ,'preset': ['030', '002', 'random'], 'source': [1, 0, 'random']}
+output_dict = {'id': ['midifile01', 'midifile02', 'midifile03'],
+                'instrument': ['keyboard', 'guitar', 'guitar'] ,
+                'preset': ['030', '002', 'random'],
+                'source': [1, 0, 'random']}
 ```
 
 The result of this dictionary can be used to track which presets and sources were selected for the MIDI file. 
