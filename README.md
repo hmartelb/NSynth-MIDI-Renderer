@@ -47,10 +47,7 @@ from NoteSynthesizer import NoteSynthesizer
 # Create the NoteSynthesizer instance
 synth = NoteSynthesizer(path_to_nsynth, path_to_midi_csv, output_dir, sr, velocities, preload)  
 
-# Generate the audio for a given MIDI sequence
-output_dict = synth.render_sequence(sequence_path, instrument, transpose, playback_speed, duration_scale, write_wav=True)
-
-# Or you can use it with multiprocessing
+# you can use it with multiprocessing
 import billiard as mp
 from tqdm.auto import tqdm
 
@@ -69,9 +66,10 @@ with tqdm(total=total) as pbar:
 ```
 
 # Examples
-The files in the /output folder have been generated using different instruments, with sr=44100, playback_speed=1 and duration_scale=4, leaving the rest of optional parameters as default. The files are named using midi file ID.
+The files in the /output folder looks like this.
 ```bash
-<midi_name>.wav
+output_dir/audio/train/midifile01.wav, midifile02.wave
+output_dir/audio/val/midifile03.wav
 ```
 The output dictionary looks like this
 '''bash
