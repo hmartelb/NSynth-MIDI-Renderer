@@ -93,7 +93,7 @@ The result of this dictionary can be used to track which presets and sources wer
 Information about the presets of audio sources that were subsequently used can be matched with the nsynth dataset.
 
 # Citation
-If you use this code in your research, please cite it as below:
+If you use this code in your research, please cite both projects as below:
 ```
 @software{Martel_NSynth-MIDI-Renderer_2019,
     author = {Martel, Héctor},
@@ -102,6 +102,15 @@ If you use this code in your research, please cite it as below:
     url = {https://github.com/hmartelb/NSynth-MIDI-Renderer},
     version = {1.0.0},
     year = {2019}
+}
+
+@software{Han_NSynth-MIDI-Renderer-for-massive-MIDI-dataset_2023,
+    author = {Han, ChangHeon},
+    month = {8},
+    title = {{NSynth-MIDI-Renderer-for-massive-MIDI-dataset : NSynth synthesizer for massive midi dataset}},
+    url = {https://github.com/spear011/NSynth-MIDI-Renderer-for-massive-MIDI-dataset.git},
+    version = {1.0.0},
+    year = {2023}
 }
 ```
 
