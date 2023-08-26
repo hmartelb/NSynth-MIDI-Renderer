@@ -7,8 +7,8 @@
 For a given MIDI sequence, it goes through a process of finding and assigning candidates to lock in a single preset from the beginning to the end of the sequence. 
 If it fails to find one because the combination of instrument, pitch, and velocity is unique, it will randomly use a preset for every note.
 
-
-* Original Project: https://github.com/hmartelb/NSynth-MIDI-Renderer
+* New Version: https://github.com/spear011/NSynth-MIDI-Renderer-for-massive-MIDI-dataset
+* Original Project (last updated 2023/08/26): https://github.com/hmartelb/NSynth-MIDI-Renderer
 
 * When tested with a 130,000 MIDI dataset, only 95 MIDI sequences were randomized, with a probability of 0.0007%.
 
@@ -19,7 +19,7 @@ If it fails to find one because the combination of instrument, pitch, and veloci
 # Quick start
 Clone this repository to your system.
 ```bash
-$ git clone https://github.com/spear011/NSynth-MIDI-Renderer-for-massive-MIDI-dataset.git
+$ git clone https://github.com/hmartelb/NSynth-MIDI-Renderer.git
 ```
 
 To start synthesizing audios, you need to download the NSynth dataset and MIDI dataset you want.
