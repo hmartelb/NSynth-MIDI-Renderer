@@ -21,3 +21,5 @@ scipy==1.5.4
 six==1.16.0
 SoundFile==0.10.3.post1
 threadpoolctl==2.1.0
+pandas
+billiard
